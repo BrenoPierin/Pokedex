@@ -22,6 +22,11 @@ axios.get('https://pokeapi.co/api/v2/pokemon/gengar')
         console.log('Bebê: ' + data.data.is_baby)
         console.log('Lendário: ' + data.data.is_legendary)
         console.log('Mitíco: ' + data.data.is_mythical)
+        axios.get(`https://pokeapi.co/api/v2/evolution-chain/40`).then(data => {
+        console.log('Evoluição base: '+ data.data.chain.species.name)
+        console.log('Evoluição secundaria: '+ data.data.chain.evolves_to[0].species.name)
+        console.log('Evoluição final: '+ data.data.chain.evolves_to[0].evolves_to[0].species.name)
+    })
     })
     
 })
