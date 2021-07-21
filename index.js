@@ -1,5 +1,6 @@
 import axios from "axios"
 
+import * as util from 'util'
 
 axios.get('https://pokeapi.co/api/v2/pokemon/gengar')
 .then(data => {
@@ -8,6 +9,9 @@ axios.get('https://pokeapi.co/api/v2/pokemon/gengar')
         //Id do pokemon
         //console.log(`Numero: #${data.data.id}`)
         pokemon.id = data.data.id
+
+        //foto do pokemon
+        pokemon.sprite = data.data.sprites.front_default
 
         //Nome do pokemon
         //console.log(`Nome: ${data.data.name.charAt().toUpperCase() + data.data.name.slice(1)}`)
@@ -90,7 +94,7 @@ axios.get('https://pokeapi.co/api/v2/pokemon/gengar')
                 //evolução final
                 //console.log('Evoluição final: ' + data.data.chain.evolves_to[0].evolves_to[0].species.name)
                 pokemon.especie.evo_final = data.data.chain.evolves_to[0].evolves_to[0].species.name
-                console.log(pokemon)
+                console.log(util.inspect(pokemon))
             })
         })
 
