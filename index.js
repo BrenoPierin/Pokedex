@@ -2,101 +2,105 @@ import axios from "axios"
 
 import * as util from 'util'
 
-axios.get('https://pokeapi.co/api/v2/pokemon/gengar')
-.then(data => {
-        let pokemon = new Object();
+async function listByName() {
+    const getPokemon = await axios.get('https://pokeapi.co/api/v2/pokemon/gengar')
+    const data = await getPokemon
+    console.log(data)
 
-        //Id do pokemon
-        //console.log(`Numero: #${data.data.id}`)
-        pokemon.id = data.data.id
+    let pokemon = new Object();
 
-        //foto do pokemon
-        pokemon.sprite = data.data.sprites.front_default
+    //Id do pokemon
+    //console.log(`Numero: #${data.data.id}`)
+    pokemon.id = data.data.id
 
-        //Nome do pokemon
-        //console.log(`Nome: ${data.data.name.charAt().toUpperCase() + data.data.name.slice(1)}`)
-        pokemon.nome = data.data.name.charAt().toUpperCase() + data.data.name.slice(1)
+    //foto do pokemon
+    pokemon.sprite = data.data.sprites.front_default
 
-        //Altura do pokemon
-        //console.log(`Altura: ${data.data.height * 10 / 100}m`)
-        pokemon.altura = data.data.height * 10 / 100
+    //Nome do pokemon
+    //console.log(`Nome: ${data.data.name.charAt().toUpperCase() + data.data.name.slice(1)}`)
+    pokemon.nome = data.data.name.charAt().toUpperCase() + data.data.name.slice(1)
 
-        //Peso do pokemon
-        //console.log(`Peso: ${data.data.weight * 10 / 100}Kg`)
-        pokemon.peso = data.data.weight * 10 / 100
+    //Altura do pokemon
+    //console.log(`Altura: ${data.data.height * 10 / 100}m`)
+    pokemon.altura = data.data.height * 10 / 100
 
-        //XP de base do pokemon
-        //lconsole.log(`XP base: ${data.data.base_experience}`)
-        pokemon.xp_base = data.data.base_experience
+    //Peso do pokemon
+    //console.log(`Peso: ${data.data.weight * 10 / 100}Kg`)
+    pokemon.peso = data.data.weight * 10 / 100
 
-        //habilidades do pokemon
-        //data.data.abilities.forEach(e => console.log(`Habilidades: ${e.ability.name}`))
-        pokemon.habilidade =  data.data.abilities
+    //XP de base do pokemon
+    //lconsole.log(`XP base: ${data.data.base_experience}`)
+    pokemon.xp_base = data.data.base_experience
 
-        //Status do pokemon
-        //console.log('Stats:') + data.data.stats.forEach(e => console.log(' ' + e.stat.name + ': ' + e.base_stat))
-        pokemon.status = data.data.stats
-        
-        //Tipos do pokemon
-        //console.log('Tipos:') + data.data.types.forEach(e => console.log(' ' + e.type.name))
-        pokemon.tipos = data.data.types
+    //habilidades do pokemon
+    //data.data.abilities.forEach(e => console.log(`Habilidades: ${e.ability.name}`))
+    pokemon.habilidade = data.data.abilities
 
-        //Moves do pokemon
-        //console.log('Moves:') + data.data.moves.forEach(e => console.log(' ' + e.move.name))
-        pokemon.movimentos = data.data.moves
+    //Status do pokemon
+    //console.log('Stats:') + data.data.stats.forEach(e => console.log(' ' + e.stat.name + ': ' + e.base_stat))
+    pokemon.status = data.data.stats
 
-        //Especies do pokemon
-        //console.log('Especie:' + data.data.species.name)
-        pokemon.especie = new Object()
+    //Tipos do pokemon
+    //console.log('Tipos:') + data.data.types.forEach(e => console.log(' ' + e.type.name))
+    pokemon.tipos = data.data.types
 
-        axios.get(`https://pokeapi.co/api/v2/pokemon-species/${data.data.id}/`).then(data => {
-            //Felicidae base dentro de especie
-            //console.log(' Felicidade base: ' + data.data.base_happiness)
-            pokemon.especie.felicidade = data.data.base_happiness
+    //Moves do pokemon
+    //console.log('Moves:') + data.data.moves.forEach(e => console.log(' ' + e.move.name))
+    pokemon.movimentos = data.data.moves
 
-            //Taxa de captura do pokemon
-            //console.log(' Taxa de Captura: ' + data.data.capture_rate + '%')
-            pokemon.especie.taxa_captura = data.data.capture_rate
+    //Especies do pokemon
+    //console.log('Especie:' + data.data.species.name)
+    pokemon.especie = new Object()
 
-            //cor do pokemon
-            //console.log(' Cor: ' + data.data.color.name)
-            pokemon.especie.cor = data.data.color.name
+    const getPokemonSpecies = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${data.data.id}/`)
+    const data1 = await getPokemonSpecies
+    //Felicidae base dentro de especie
+    //console.log(' Felicidade base: ' + data.data.base_happiness)
+    pokemon.especie.felicidade = data1.data.base_happiness
 
-            //forma do pokemon
-            //console.log(' Forma: ' + data.data.shape.name)
-            pokemon.especie.forma = data.data.shape.name
+    //Taxa de captura do pokemon
+    //console.log(' Taxa de Captura: ' + data.data.capture_rate + '%')
+    pokemon.especie.taxa_captura = data1.data.capture_rate
 
-            // Variações do pkemon
-            //console.log(' Variações:') + data.data.varieties.forEach(e => console.log(' ' + e.pokemon.name))
-            pokemon.especie.variacao = data.data.varieties
+    //cor do pokemon
+    //console.log(' Cor: ' + data.data.color.name)
+    pokemon.especie.cor = data1.data.color.name
 
-            //É bebe?
-            //console.log('Bebê: ' + data.data.is_baby)
-            pokemon.especie.bebe = data.data.is_baby
+    //forma do pokemon
+    //console.log(' Forma: ' + data.data.shape.name)
+    pokemon.especie.forma = data1.data.shape.name
 
-            //Lendário?
-            //console.log('Lendário: ' + data.data.is_legendary)
-            pokemon.especie.lendario = data.data.is_legendary
+    // Variações do pkemon
+    //console.log(' Variações:') + data.data.varieties.forEach(e => console.log(' ' + e.pokemon.name))
+    pokemon.especie.variacao = data1.data.varieties
 
-            //Mitico?
-            //console.log('Mitíco: ' + data.data.is_mythical)
-            pokemon.especie.mitico = data.data.is_mythical
+    //É bebe?
+    //console.log('Bebê: ' + data.data.is_baby)
+    pokemon.especie.bebe = data1.data.is_baby
 
-            axios.get(data.data.evolution_chain.url).then(data => {
-                //evoluçao base
-                //console.log('Evoluição base: ' + data.data.chain.species.name)
-                pokemon.especie.evo_base = data.data.chain.species.name
+    //Lendário?
+    //console.log('Lendário: ' + data.data.is_legendary)
+    pokemon.especie.lendario = data1.data.is_legendary
 
-                //evolução secundaria
-                //console.log('Evoluição secundaria: ' + data.data.chain.evolves_to[0].species.name)
-                pokemon.especie.evo_second = data.data.chain.evolves_to[0].species.name
+    //Mitico?
+    //console.log('Mitíco: ' + data.data.is_mythical)
+    pokemon.especie.mitico = data1.data.is_mythical
 
-                //evolução final
-                //console.log('Evoluição final: ' + data.data.chain.evolves_to[0].evolves_to[0].species.name)
-                pokemon.especie.evo_final = data.data.chain.evolves_to[0].evolves_to[0].species.name
-                console.log(util.inspect(pokemon))
-            })
-        })
+    const getPokemonEvolution = await axios.get(data1.data.evolution_chain.url)
+    const data2 = await getPokemonEvolution
+    //evoluçao base
+    //console.log('Evoluição base: ' + data.data.chain.species.name)
+    pokemon.especie.evo_base = data2.data.chain.species.name
 
+    //evolução secundaria
+    //console.log('Evoluição secundaria: ' + data.data.chain.evolves_to[0].species.name)
+    pokemon.especie.evo_second = data2.data.chain.evolves_to[0].species.name
 
-    })
+    //evolução final
+    //console.log('Evoluição final: ' + data.data.chain.evolves_to[0].evolves_to[0].species.name)
+    pokemon.especie.evo_final = data2.data.chain.evolves_to[0].evolves_to[0].species.name
+    console.log(util.inspect(pokemon))
+}
+
+listByName()
+
